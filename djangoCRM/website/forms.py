@@ -2,6 +2,7 @@ from typing import Any
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from .models import Record
 
 
 class SignUpForm(UserCreationForm) :
@@ -40,3 +41,44 @@ class SignUpForm(UserCreationForm) :
         self.fields['password2'].widget.attrs['class'] = "border rounded-xl pl-5 py-2 mt-2 w-full flex flex-col"
         self.fields['password2'].widget.attrs['placeholder'] = "Confirm your Password"
         self.fields['password2'].help_text = '<span class="text-sm py-3 ml-3">Enter the same password for verification</span>'
+
+
+
+# cretae a add new record form
+class NewRecordForm(forms.ModelForm):
+    first_name = forms.CharField(required=True, max_length=50, widget=forms.widgets.TextInput(attrs={
+        'class' : "w-full pl-5 py-2 border rounded-xl mb-2",
+        'placeholder' : "The record's First Name"
+    }), label="First Name :")
+    last_name = forms.CharField(required=True, max_length=50, widget=forms.widgets.TextInput(attrs={
+        'class' : "w-full pl-5 py-2 border rounded-xl mb-2",
+        'placeholder' : "The record's Last Name"
+    }), label="Last Name :")
+    email = forms.EmailField(label="Email Address :", widget=forms.widgets.EmailInput(attrs={
+        'class' : "w-full pl-5 py-2 border rounded-xl mb-2",
+        'placeholder' : "The record's Email"
+    }), required=True)
+    phone = forms.CharField(required=True, max_length=15, widget=forms.widgets.TextInput(attrs={
+        'class' : "w-full pl-5 py-2 border rounded-xl mb-2",
+        'placeholder' : "The record's Phone Number"
+    }), label="Phone Number :")
+    address = forms.CharField(required=True, max_length=100, widget=forms.widgets.TextInput(attrs={
+        'class' : "w-full pl-5 py-2 border rounded-xl mb-2",
+        'placeholder' : "The record's Address"
+    }), label="Address :")
+    city = forms.CharField(required=True, max_length=50, widget=forms.widgets.TextInput(attrs={
+        'class' : "w-full pl-5 py-2 border rounded-xl mb-2",
+        'placeholder' : "The record's City"
+    }), label="City :")
+    state = forms.CharField(required=True, max_length=50, widget=forms.widgets.TextInput(attrs={
+        'class' : "w-full pl-5 py-2 border rounded-xl mb-2",
+        'placeholder' : "The record's State"
+    }), label="State :")
+    zipcode = forms.CharField(required=True, max_length=20, widget=forms.widgets.TextInput(attrs={
+        'class' : "w-full pl-5 py-2 border rounded-xl mb-2",
+        'placeholder' : "The record's State Zipcode"
+    }), label="Zip Code :")
+
+    class Meta :
+        model = Record 
+        fields = ('first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zipcode')

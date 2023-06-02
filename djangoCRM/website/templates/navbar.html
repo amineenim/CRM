@@ -5,6 +5,7 @@
     <div class="flex items-center text-white justify-around w-1/5">
         {% if user.is_authenticated %}
             <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'create' %}">New record</a>
         {% else %}
             <a href="{% url 'home' %}">Login</a>
             <a href="{% url 'register' %}">Register</a>

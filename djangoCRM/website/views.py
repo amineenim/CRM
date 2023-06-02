@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, NewRecordForm
 from website.models import Record
 
 # Create your views here.
@@ -55,3 +55,63 @@ def register_user(request) :
     
     return render(request, 'register.html', {'form' : form})
          
+# function that handles returning view for a single record 
+def view_record(request, id) :
+    if request.user.is_authenticated : 
+        # grab the corresponding record 
+        record = Record.objects.filter(id =id)
+        if record : 
+            return render(request, 'record.html', {'record' : record[0]})
+        else :
+            return render(request, '404.html')
+    else : 
+        messages.error(request, "Authentication required !")
+        return redirect('home')
+
+# function that handles deleting a record 
+def delete_record(request, id) : 
+    if request.user.is_authenticated :
+        # get the instance to delete 
+        record = Record.objects.get(id=id)
+        record.delete()
+        messages.success(request, "Record deleted successfully !")
+        return redirect("home")
+    else : 
+        messages.error(request, "Authentication required !")
+        return redirect('home')
+
+# function that handles creating a new record 
+def create_record(request) : 
+    form = NewRecordForm(request.POST or None)
+    if request.user.is_authenticated : 
+        if request.method == "POST" :
+            if form.is_valid() :
+                form.save()
+                messages.success(request, "Record Added Successfully !")
+                return redirect('home')
+        else :
+            return render(request, 'new.html', {'form' : form})
+    else :
+        messages.error(request, "Authentication required !")
+        return redirect('home')
+
+# function that handles editing a given record resource 
+def edit_record(request, id) : 
+    if request.user.is_authenticated :
+        # grab the record to update
+        record_to_update = Record.objects.get(id=id) 
+        if request.method == "POST" :
+            # pass it to the form so it can be prefilled 
+            form = NewRecordForm(request.POST, instance=record_to_update)
+            if form.is_valid() :
+                form.save()
+                messages.success(request, "Record Updated Successfully")
+                return redirect('home')
+        # if the form has not been submitted 
+        form = NewRecordForm(instance=record_to_update)
+        return render(request, 'update_record.html', {'form' : form})
+    else :
+        messages.error(request, "Authentication required !")
+        return redirect('home')
+
+
