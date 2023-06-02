@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <h1 class="text-2xl text-center mb-8">Register</h1>
+    <div class="w-1/2 bg-gray-300 px-8 py-10 rounded-xl self-center">
+        <form method='POST' action='.' class="flex flex-col">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class = "rounded-xl bg-red-200 px-6 py-3 my-4">
+                    {% for field in form %}
+                        {% if field.errors %}
+                            {{ field.errors }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {{ form.as_p }}
+            <button type='submit' class='rounded-xl px-6 py-3 mt-6 text-lg border bg-green-400 self-center hover:bg-green-500'>Register</button>
+        </form>
+    </div>
+{% endblock %}

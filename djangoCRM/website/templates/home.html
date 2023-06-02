@@ -6,32 +6,31 @@
 {% if user.is_authenticated %}
 <h1>Hello world</h1>
 {% else %}
-<div class="w-1/2 bg-gray-500 rounded-xl self-center p-4 flex flex-col">
-    <h1 class="text-3xl text-white text-center mb-3">Here you can Authenticate</h1>
-    <form method="POST" action="{% url 'home' %}" class="flex flex-col" autocomplete="off">
+    <h1 class="text-3xl text-center mb-3">Already having an account</h2>
+    <h1 class="text-2xl text-center mb-8"> Authenticate Here !</h1>
+    <form method="POST" action="{% url 'home' %}" class="w-1/2 bg-gray-300 rounded-xl self-center px-4 py-10 flex flex-col" autocomplete="off">
         {% csrf_token %}
         <div class="flex flex-col p-1 mb-2">
-            <label for="username" class="mb-1 ml-2 text-white">Username :</label>
+            <label for="username" class="mb-1 ml-2">Username :</label>
             <input type="text" name="username" id="username" 
             autocomplete="false"
             placeholder="Type in your username"
             required 
-            class="border rounded-xl pl-4 py-2"
+            class="border rounded-xl pl-4 py-2 mt-2"
             />
         </div>
         <div class="flex flex-col p-1 mb-3">
-            <label for="password" class="mb-1 ml-2 text-white">Password :</label>
+            <label for="password" class="mb-1 ml-2">Password :</label>
             <input type="password" name="password" id="password" 
             autocomplete="false"
             placeholder="Type in your password"
-            class="border rounded-xl pl-4 py-2"
+            class="border rounded-xl pl-4 py-2 mt-2"
             required
             />
         </div>
         <button type='submit' name='login'
-        class="bg-gray-900 text-white self-center mt-4 px-4 py-3 border rounded-xl text-lg hover:bg-gray-700 "
+        class="bg-green-400 text-white self-center mt-6 px-4 py-3 border rounded-xl text-lg hover:bg-green-500 "
         >Login</button>
     </from>
-</div>
 {% endif %}
 {% endblock %}
