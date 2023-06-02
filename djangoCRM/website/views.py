@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm
+from website.models import Record
 
 # Create your views here.
 # the home page view 
 def home(request) : 
+    # grab all recors 
+    records = Record.objects.all()
     # check if the form is submitted
     if request.method == "POST" :
         # get form data
@@ -20,7 +23,7 @@ def home(request) :
         else :
             messages.error(request, "something went wrong, please verify your credentials !")
             return redirect('home')
-    return render(request, 'home.html', {})
+    return render(request, 'home.html', {'records' : records})
 
 # function that handles login in a user
 def login_user(request) :
